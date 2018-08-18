@@ -1,5 +1,5 @@
 <template>
-	<div id="footer">
+	<div id="footered">
 		<footer class="page-footer grey lighten-4">
 	      <div class="container">
 	        <div class="row">
@@ -29,6 +29,6 @@
 </template>
 <script>
 	export default{
-		name: 'footer'
+		name: 'footered'
 	}
 </script>

@@ -8,12 +8,7 @@
           3-columns-wide on large screens,
           4-columns-wide on medium screens,
           12-columns-wide on small screens  -->
-        <div class="collection">
-	      <a href="#!" class="collection-item">Alvin</a>
-	      <a href="#!" class="collection-item active">Alvin</a>
-	      <a href="#!" class="collection-item">Alvin</a>
-	      <a href="#!" class="collection-item">Alvin</a>
-      	</div>
+        <Sidemenu/>
       </div>
       <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added -->
         <!-- Teal page content
@@ -62,9 +57,12 @@
 
 <script>
 // @ is an alias to /src
-
+import Sidemenu from '../components/Sidemenu'
 export default {
   name: 'home',
+  components:{
+    Sidemenu
+  },
   mounted() {
   	this.$nextTick(()=>{
   		$('.carousel.carousel-slider').carousel({
