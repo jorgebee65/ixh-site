@@ -19,37 +19,32 @@
           12-columns-wide on small screens  -->
           <div class="container">
 	          <div class="carousel carousel-slider center">
-	          	<div class="carousel-fixed-item center">
-			      <a class="btn waves-effect">button</a>
-			    </div>
-			    <a class="carousel-item" href="#one!"><img src="https://cdn.needish.com/is-prod-deals/2UoRrKFHJfPW6GXxdQkpqQ/scale/900x600.jpg"></a>
-			   	<a class="carousel-item" href="#one!"><img src="https://cdn.needish.com/is-prod-deals/LRAmGotkBukRVxFHVw48Mg/scale/900x600.jpg"></a>
-			   	<a class="carousel-item" href="#one!"><img src="https://cdn.needish.com/is-prod-deals/b_7G_XbFi8tOQ22SmazaYg/scale/900x600.jpg"></a>
+			    <a class="carousel-item" href="#one!"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Z%C3%B3calo_de_Ixhuatlancillo.jpg/1200px-Z%C3%B3calo_de_Ixhuatlancillo.jpg"></a>
+			   	<a class="carousel-item" href="#one!"><img src="https://i.ytimg.com/vi/T34IBr-iYDA/maxresdefault.jpg"></a>
+			   	<a class="carousel-item" href="#one!"><img src="https://static.panoramio.com.storage.googleapis.com/photos/large/19645822.jpg"></a>
 			  </div>
 		  </div>
       </div>
     </div>	
     <div class="container">
 	    <div class="row">
-	    	<div class="col s1 m4">
-	    		<div class="row">
-				    <div class="col s12 m7">
-				      <div class="card">
-				        <div class="card-image">
-				          <img src="https://cdn.needish.com/is-prod-deals/LRAmGotkBukRVxFHVw48Mg/scale/460x279.jpg">
-				          <span class="card-title">Card Title</span>
-				        </div>
-				        <div class="card-content">
-				          <p>I am a very simple card. I am good at containing small bits of information.
-				          </p>
-				        </div>
-				        <div class="card-action">
-				          <a href="#">This is a link</a>
-				        </div>
-				      </div>
-				    </div>
-				</div>
-	    	</div>
+		    <div v-for="adv in advs" v-bind:key="adv.advId" class="col s12 m4 l3">
+		      <div class="card">
+		        <div class="card-image">
+		          <img v-bind:src="adv.image"/>
+		        </div>
+		        <div class="card-content">
+		          <p>{{adv.title}}
+		          </p>
+		        </div>
+		        <div class="card-action right-align">
+		          <a href="#" class="btn-flat disabled tachado">$45.00</a>
+		          <router-link :to="{name: 'view-element', params:{adv_id: adv.advId}}">
+					  <a href="#">${{adv.price}}</a>
+				  </router-link>
+		        </div>
+		      </div>
+		    </div>
 	    </div>
     </div>
   </div>
@@ -58,12 +53,22 @@
 <script>
 // @ is an alias to /src
 import Sidemenu from '../components/Sidemenu'
+import axios from 'axios'
 export default {
   name: 'home',
+  data(){
+  	return{
+	  	advs : ''	
+  	}
+  },
   components:{
     Sidemenu
   },
   mounted() {
+  	axios.get('http://ixhuatlancillo.com:8080/ixh/advs').then(response=>{
+  		console.log(response.data)
+  		this.advs = response.data
+  	})
   	this.$nextTick(()=>{
   		$('.carousel.carousel-slider').carousel({
 		    fullWidth: true,
@@ -71,8 +76,12 @@ export default {
 		  })
   		setInterval(function(){
   			$('.carousel.carousel-slider').carousel('next')
-  		},3000)
+  		},4000)
   	})
   }
 }
 </script>
+<style>
+
+
+</style>

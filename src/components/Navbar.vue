@@ -1,8 +1,8 @@
 <template>
 	<div id="navbar">
-		<nav class=" light-green darken-4">
+		<nav class="brown darken-3">
 		    <div class="nav-wrapper">
-		      <a href="#" class="brand-logo">Ixhuatlancillo</a>
+		      <a href="/" class="brand-logo titleNav">Ixhua</a>
 		      <ul id="nav-mobile" class="right hide-on-med-and-down">
 		        <li><a href="sass.html">AYUDA</a></li>
 		        <li><a href="badges.html">INGRESAR</a></li>
@@ -16,4 +16,10 @@
 	export default{
 		name: 'navbar'
 	}
+	
 </script>
+<style>
+	.titleNav{
+		font-family: 'Pacifico', cursive;
+	}
+</style>

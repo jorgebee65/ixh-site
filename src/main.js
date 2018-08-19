@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import Materializecss from 'materialize-css'
 import 'materialize-css/dist/css/materialize.css'
+import './assets/css/app.css'
 import JQuery from 'jquery'
 global.jQuery = jQuery
 global.$ = jQuery

@@ -4,24 +4,21 @@
 	      <div class="container">
 	        <div class="row">
 	          <div class="col l6 s12">
-	            <h5 class="grey-text text-darken-2">Footer Content</h5>
-	            <p class="grey-text text-darken-2">You can use rows and columns here to organize your footer content.</p>
+	            <h5 class="grey-text text-darken-2">Emprendimiento Local</h5>
+	            <p class="grey-text text-darken-2">Anuncios, ofertas y promociones en Ixhuatlancillo y la región</p>
 	          </div>
 	          <div class="col l4 offset-l2 s12">
-	            <h5 class="grey-text">Links</h5>
+	            <h5 class="grey-text">Síguenos</h5>
 	            <ul>
-	              <li><a class="grey-text text-darken-2" href="#!">Link 1</a></li>
-	              <li><a class="grey-text text-darken-2" href="#!">Link 2</a></li>
-	              <li><a class="grey-text text-darken-2" href="#!">Link 3</a></li>
-	              <li><a class="grey-text text-darken-2" href="#!">Link 4</a></li>
+	              <li><a class="grey-text text-darken-2" href="https://www.facebook.com/contactoIxhuatlancillo/">Facebook</a></li>
 	            </ul>
 	          </div>
 	        </div>
 	      </div>
 	      <div class="footer-copyright">
 	        <div class="container">
-	        © 2014 Copyright Text
-	        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+	        © 2018 
+	        <a class="grey-text text-lighten-4 right" href="#!">Otros</a>
 	        </div>
 	      </div>
 	    </footer>
