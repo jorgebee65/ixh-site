@@ -28,7 +28,7 @@
     </div>	
     <div class="container">
 	    <div class="row">
-		    <div v-for="adv in advs" v-bind:key="adv.advId" class="col s12 m4 l3">
+		    <div v-for="adv in advs" v-bind:key="adv.id" class="col s12 m4 l3">
 		      <div class="card">
 		        <div class="card-image">
 		          <img v-bind:src="adv.image"/>
@@ -38,9 +38,9 @@
 		          </p>
 		        </div>
 		        <div class="card-action right-align">
-		          <a href="#" class="btn-flat disabled tachado">$45.00</a>
-		          <router-link :to="{name: 'view-element', params:{adv_id: adv.advId}}">
-					  <a href="#">${{adv.price}}</a>
+		          <a href="#" class="btn-flat disabled tachado">{{adv.sOriginalPrice}}</a>
+		          <router-link :to="{name: 'view-element', params:{adv_id: adv.id}}">
+					  <a href="#">{{adv.sPrice}}</a>
 				  </router-link>
 		        </div>
 		      </div>
@@ -58,14 +58,14 @@ export default {
   name: 'home',
   data(){
   	return{
-	  	advs : ''	
+	  	advs : ''
   	}
   },
   components:{
     Sidemenu
   },
   mounted() {
-  	axios.get('http://ixhuatlancillo.com:8080/ixh/advs').then(response=>{
+  	axios.get(global.ENVIRONMENT+'/ixh/advs').then(response=>{
   		console.log(response.data)
   		this.advs = response.data
   	})

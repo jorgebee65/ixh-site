@@ -10,11 +10,11 @@
 	        <div>{{adv.description}}</div>
 	      </div>
           <div class="col s12 m4">
-	        	<div>Descuento {{adv.discount}}% </div>
+	        	<div>Descuento {{adv.discount}}</div>
 	        	<div class="right-align">
-	        		<a href="#" class="btn-flat disabled tachado">${{normalprice}}</a>
+	        		<a href="#" class="btn-flat disabled tachado">{{adv.sOriginalPrice}}</a>
 	        	</div>
-	        	<div class="light-green-text price">${{adv.price}}</div>
+	        	<div class="light-green-text price">{{adv.sPrice}}</div>
 	      </div>
 	      <div class="center-align">
 	      	<a class="waves-effect waves-light btn-large">Comprar</a>
@@ -29,18 +29,14 @@
 		name:'view-element',
 	data(){
 			return {
-				adv : '',
-				normalprice:''
+				adv : ''
 			}
 	},
 	beforeRouteEnter(to,from,next){
-		console.log('Paso este parametro: '+to.params.adv_id)
-		axios.get('http://ixhuatlancillo.com:8080/ixh/advs/'+to.params.adv_id)
+		axios.get(global.ENVIRONMENT+'/ixh/advs/'+to.params.adv_id)
 			.then(response=>{
 	  			next(vm=>{
-					console.log('arre')
 					vm.adv = response.data
-					vm.normalprice = response.data.price * (1+ (response.data.discount/100 ))
 				})	
   			})
 	},
