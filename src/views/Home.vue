@@ -19,9 +19,9 @@
           12-columns-wide on small screens  -->
           <div class="container">
 	          <div class="carousel carousel-slider center">
-			    <a class="carousel-item" href="#one!"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Z%C3%B3calo_de_Ixhuatlancillo.jpg/1200px-Z%C3%B3calo_de_Ixhuatlancillo.jpg"></a>
-			   	<a class="carousel-item" href="#one!"><img src="https://i.ytimg.com/vi/T34IBr-iYDA/maxresdefault.jpg"></a>
-			   	<a class="carousel-item" href="#one!"><img src="https://static.panoramio.com.storage.googleapis.com/photos/large/19645822.jpg"></a>
+			    <a class="carousel-item" href="#one!"><img src="https://cdn.needish.com/is-prod-deals/wjGGiyYGv6qYLqEcwGgGzw/scale/900x600.jpg"></a>
+			   	<a class="carousel-item" href="#one!"><img src="https://cdn.needish.com/is-prod-deals/hVewvbYrT2IhtRBqCHQZaQ/scale/900x600.jpg"></a>
+			   	<a class="carousel-item" href="#one!"><img src="https://cdn.needish.com/is-prod-deals/wN2ndFBalTEoqMbRYh0Tew/scale/900x600.jpg"></a>
 			  </div>
 		  </div>
       </div>
@@ -52,6 +52,7 @@
 
 <script>
 // @ is an alias to /src
+import db from '../components/firebaseInit'
 import Sidemenu from '../components/Sidemenu'
 import axios from 'axios'
 export default {

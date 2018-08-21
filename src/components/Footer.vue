@@ -4,7 +4,7 @@
 	      <div class="container">
 	        <div class="row">
 	          <div class="col l6 s12">
-	            <h5 class="grey-text text-darken-2">Emprendimiento Local</h5>
+	            <h5 class="grey-text text-darken-2">Anuncios Locales</h5>
 	            <p class="grey-text text-darken-2">Anuncios, ofertas y promociones en Ixhuatlancillo y la región</p>
 	          </div>
 	          <div class="col l4 offset-l2 s12">
