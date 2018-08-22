@@ -29,7 +29,7 @@
     <div class="container">
 	    <div class="row">
 		    <div v-for="adv in advs" v-bind:key="adv.id" class="col s12 m4 l3">
-		      <div class="card">
+		      <!--div class="card">
 		        <div class="card-image">
 		          <img v-bind:src="adv.image"/>
 		        </div>
@@ -43,7 +43,25 @@
 					  <a href="#">{{adv.sPrice}}</a>
 				  </router-link>
 		        </div>
-		      </div>
+		      </div-->
+          <router-link :to="{name: 'view-element', params:{adv_id: adv.id}}">
+            <md-card class="black-text" md-with-hover>
+            <md-ripple>
+              <md-card-area>
+                <md-card-media>
+                  <img v-bind:src="adv.image"/>
+                </md-card-media>
+                <md-card-header>
+                  <div class="md-subhead">{{adv.title}}</div>
+                </md-card-header>
+            </md-card-area>
+              <md-card-actions>
+                <md-button class="btn-flat disabled tachado">{{adv.sOriginalPrice}}</md-button>
+                <md-button>{{adv.sPrice}}</md-button>
+              </md-card-actions>
+            </md-ripple>
+          </md-card>
+        </router-link>
 		    </div>
 	    </div>
     </div>
@@ -59,7 +77,8 @@ export default {
   name: 'home',
   data(){
   	return{
-	  	advs : ''
+	  	advs : '',
+      groups : ''
   	}
   },
   components:{
@@ -70,6 +89,8 @@ export default {
   		console.log(response.data)
   		this.advs = response.data
   	})
+   
+    
   	this.$nextTick(()=>{
   		$('.carousel.carousel-slider').carousel({
 		    fullWidth: true,

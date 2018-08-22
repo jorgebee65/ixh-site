@@ -11,14 +11,67 @@
 	      </div>
           <div class="col s12 m4">
 	        	<div>Descuento {{adv.discount}}</div>
-	        	<div class="right-align">
+	        	<div class="center-align">
 	        		<a href="#" class="btn-flat disabled tachado">{{adv.sOriginalPrice}}</a>
 	        	</div>
-	        	<div class="light-green-text price">{{adv.sPrice}}</div>
+	        	<div class="light-green-text price center-align">{{adv.sPrice}}</div>
+	        	 <div class="center-align">
+			       <a @click="buy()" class="waves-effect waves-light btn">Comprar</a>
+			  	 </div>
+	        	<div id="info-adv" class="viewport">
+			      <md-toolbar :md-elevation="1">
+			        <span class="md-title">Información</span>
+			      </md-toolbar>
+
+			      <md-list class="md-double-line">
+			        <md-subheader>Phone</md-subheader>
+
+			        <md-list-item>
+			          <md-icon class="md-primary">phone</md-icon>
+
+			          <div class="md-list-item-text">
+			            <span>(650) 555-1234</span>
+			            <span>Mobile</span>
+			          </div>
+
+			          <md-button class="md-icon-button md-list-action">
+			            <md-icon>sms</md-icon>
+			          </md-button>
+			        </md-list-item>
+
+			        <md-list-item class="md-inset">
+			          <div class="md-list-item-text">
+			            <span>(650) 555-1234</span>
+			            <span>Mobile</span>
+			          </div>
+
+			          <md-button class="md-icon-button md-list-action">
+			            <md-icon>sms</md-icon>
+			          </md-button>
+			        </md-list-item>
+
+			        <md-divider></md-divider>
+			        <md-subheader>Email</md-subheader>
+
+			        <md-list-item>
+			          <md-icon class="md-primary">email</md-icon>
+
+			          <div class="md-list-item-text">
+			            <span>aliconnors@example.com</span>
+			            <span>Personal</span>
+			          </div>
+			        </md-list-item>
+
+			        <md-list-item class="md-inset">
+			          <div class="md-list-item-text">
+			            <span>ali_connors@example.com</span>
+			            <span>Work</span>
+			          </div>
+			        </md-list-item>
+			      </md-list>
+			    </div>
 	      </div>
-	      <div class="center-align">
-	      	<a class="waves-effect waves-light btn-large">Comprar</a>
-	  	  </div>
+	     
     	</div>
       </div>
 	</div>
@@ -46,7 +99,13 @@
 	methods:{
 		fetchData(){
 
+		},
+		buy(){
+			$('#info-adv').show()
 		}
+	},
+	mounted(){
+		$('#info-adv').hide()
 	}
 }
 </script>
