@@ -16,11 +16,11 @@
 	        	</div>
 	        	<div class="light-green-text price center-align">{{adv.sPrice}}</div>
 	        	 <div class="center-align">
-			       <a @click="buy()" class="waves-effect waves-light btn">Comprar</a>
+			       <a @click="buy()" class="waves-effect waves-light btn">Información</a>
 			  	 </div>
 	        	<div id="info-adv" class="viewport">
 			      <md-toolbar :md-elevation="1">
-			        <span class="md-title">Información</span>
+			        <span class="md-title">Detalles del Anuncio</span>
 			      </md-toolbar>
 
 			      <md-list class="md-double-line">
@@ -30,18 +30,7 @@
 			          <md-icon class="md-primary">phone</md-icon>
 
 			          <div class="md-list-item-text">
-			            <span>(650) 555-1234</span>
-			            <span>Mobile</span>
-			          </div>
-
-			          <md-button class="md-icon-button md-list-action">
-			            <md-icon>sms</md-icon>
-			          </md-button>
-			        </md-list-item>
-
-			        <md-list-item class="md-inset">
-			          <div class="md-list-item-text">
-			            <span>(650) 555-1234</span>
+			            <span>{{adv.phone}}</span>
 			            <span>Mobile</span>
 			          </div>
 
@@ -51,21 +40,41 @@
 			        </md-list-item>
 
 			        <md-divider></md-divider>
-			        <md-subheader>Email</md-subheader>
+			        <md-subheader v-if="adv.email != null">Email</md-subheader>
 
-			        <md-list-item>
+			        <md-list-item v-if="adv.email != null">
 			          <md-icon class="md-primary">email</md-icon>
 
 			          <div class="md-list-item-text">
-			            <span>aliconnors@example.com</span>
+			            <span>{{adv.email}}</span>
 			            <span>Personal</span>
 			          </div>
 			        </md-list-item>
+			        <md-divider></md-divider>
+			        <md-subheader v-if="adv.facebook != null || adv.instagram != null || adv.web != null">Redes Sociales</md-subheader>
 
-			        <md-list-item class="md-inset">
+			        <md-list-item v-if="adv.facebook != null">
+			          <md-icon class="md-primary">supervisor_account</md-icon>
+
 			          <div class="md-list-item-text">
-			            <span>ali_connors@example.com</span>
-			            <span>Work</span>
+			            <span>{{adv.facebook}}</span>
+			            <span>Facebook</span>
+			          </div>
+			        </md-list-item>
+			        <md-list-item v-if="adv.instagram != null">
+			          <md-icon class="md-primary">photo_camera</md-icon>
+
+			          <div class="md-list-item-text">
+			            <span>{{adv.instagram}}</span>
+			            <span>Instagram</span>
+			          </div>
+			        </md-list-item>
+			        <md-list-item v-if="adv.web != null">
+			          <md-icon class="md-primary">public</md-icon>
+
+			          <div class="md-list-item-text">
+			            <span>{{adv.web}}</span>
+			            <span>Sitio Web</span>
 			          </div>
 			        </md-list-item>
 			      </md-list>
