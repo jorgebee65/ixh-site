@@ -12,8 +12,8 @@ global.$ = jQuery
 Vue.config.productionTip = false
 Vue.use(VueMaterial)
 
-//global.ENVIRONMENT = 'http://localhost:8080'
-global.ENVIRONMENT = 'http://ixhuatlancillo.com:8080'
+global.ENVIRONMENT = 'http://localhost:8080'
+//global.ENVIRONMENT = 'http://ixhuatlancillo.com:8080'
 
 
 

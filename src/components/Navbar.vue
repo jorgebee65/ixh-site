@@ -15,6 +15,14 @@
     	</md-menu>
         <md-button v-else @click="login" class="white-text" >Iniciar Sesión</md-button>
       </div>
+      <div class="hide-on-med-and-up">
+      <md-button href="tel:+525554352034" class="md-icon-button md-raised grey lighten-4">
+        <md-icon>call</md-icon>
+      </md-button>
+      </div>
+      <div class="hide-on-small-only">
+      <a class="waves-effect waves-light btn-flat white-text">55 5435-2034</a>
+  	  </div>
     </md-toolbar>
     <md-dialog-confirm
       :md-active.sync="active"

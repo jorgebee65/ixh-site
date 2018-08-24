@@ -80,8 +80,13 @@
 			      </md-list>
 			    </div>
 	      </div>
-	     
-    	</div>
+	    </div>
+	    <div class="row">
+	      <div class="col s12 m6">
+	      	<h5>Ubicación</h5>
+	      	<div id="map"></div>
+	      </div>
+	  	</div>
       </div>
 	</div>
 </template>
@@ -107,17 +112,29 @@
 	},
 	methods:{
 		fetchData(){
-
+			console.log(this.adv.latitude)
 		},
 		buy(){
 			$('#info-adv').show()
 		}
 	},
 	mounted(){
-		$('#info-adv').hide()
+		this.$nextTick(function () {
+	    // Code that will run only after the
+	    // entire view has been rendered
+    	  var uluru = {lat: this.adv.latitude, lng: this.adv.longitude};
+		  // The map, centered at Uluru
+		  var map = new google.maps.Map(
+		      document.getElementById('map'), {zoom: 18, center: uluru});
+		  // The marker, positioned at Uluru
+		  var marker = new google.maps.Marker({position: uluru, map: map});
+  		})
 	}
 }
 </script>
 <style>
-  
+  #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
 </style>
