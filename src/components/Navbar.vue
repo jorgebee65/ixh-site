@@ -95,6 +95,9 @@
 					})
 					this.validate()
 				//}
+			},
+			onCancel:function(){
+				console.log('Cancel')
 			}
 		},
 		mounted() {

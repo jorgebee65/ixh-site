@@ -82,7 +82,7 @@
 	      </div>
 	    </div>
 	    <div class="row">
-	      <div class="col s12 m6">
+	      <div class="col s12 m10 l6">
 	      	<h5>Ubicación</h5>
 	      	<div id="map"></div>
 	      </div>
@@ -119,6 +119,7 @@
 		}
 	},
 	mounted(){
+		$('#info-adv').hide()
 		this.$nextTick(function () {
 	    // Code that will run only after the
 	    // entire view has been rendered

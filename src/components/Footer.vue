@@ -17,8 +17,8 @@
 	      </div>
 	      <div class="footer-copyright">
 	        <div class="container">
-	        © 2018 
-	        <a class="grey-text text-lighten-4 right" href="#!">Otros</a>
+	        © 2018 DomClub
+	        <a class="grey-text text-lighten-4 right" href="#!">Jorge Dom</a>
 	        </div>
 	      </div>
 	    </footer>

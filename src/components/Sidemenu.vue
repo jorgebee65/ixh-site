@@ -1,10 +1,12 @@
 <template>
 	<div id="sidemenu">
 		<ul class="collection">
-		    <li v-for="cat in cats" v-bind:key="cat.category" class="collection-item avatar">
-		      <i class="material-icons circle">{{cat.icon}}</i>
-		      <span class="title">{{cat.category}}</span>
-		      <p>{{cat.count}}</p>
+		    <li v-for="cat in cats" v-bind:key="cat.id" class="collection-item avatar">
+			    <router-link :to="{name: 'filtered-element', params:{cat_id: cat.id}}">
+			      <i class="material-icons circle">{{cat.icon}}</i>
+			      <span class="title">{{cat.category}}</span>
+			      <p>{{cat.count}}</p>
+			    </router-link>
 		    </li>
 		</ul>
 	</div>
