@@ -1,14 +1,14 @@
 <template>
 	<div id="sidemenu">
-		<ul class="collection">
-		    <li v-for="cat in cats" v-bind:key="cat.id" class="collection-item avatar">
-			    <router-link :to="{name: 'filtered-element', params:{cat_id: cat.id}}">
-			      <i class="material-icons circle">{{cat.icon}}</i>
+		<md-list>
+			<div v-for="cat in cats" v-bind:key="cat.id">
+			<md-list-item :to="{name: 'filtered-element', params:{cat_id: cat.id}}">
+			      <md-icon>{{cat.icon}}</md-icon>
 			      <span class="title">{{cat.category}}</span>
-			      <p>{{cat.count}}</p>
-			    </router-link>
-		    </li>
-		</ul>
+			      {{cat.count}}
+			</md-list-item>
+			</div>
+		</md-list>
 	</div>
 </template>
 <script>
@@ -28,3 +28,12 @@
 	  }
 	}
 </script>
+<style lang="scss" scoped>
+  .md-list {
+    width: 320px;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid rgba(#000, .12);
+  }
+</style>

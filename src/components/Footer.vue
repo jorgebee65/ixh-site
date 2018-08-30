@@ -5,12 +5,12 @@
 	        <div class="row">
 	          <div class="col l6 s12">
 	            <h5 class="grey-text text-darken-2">Anuncios Locales</h5>
-	            <p class="grey-text text-darken-2">Anuncios, ofertas y promociones en Ixhuatlancillo y la región</p>
+	            <p class="grey-text text-darken-2">Anuncios, ofertas y promociones en Colli Primavera y la región</p>
 	          </div>
 	          <div class="col l4 offset-l2 s12">
 	            <h5 class="grey-text">Síguenos</h5>
 	            <ul>
-	              <li><a class="grey-text text-darken-2" href="https://www.facebook.com/contactoIxhuatlancillo/">Facebook</a></li>
+	              <li><a class="grey-text text-darken-2" href="https://www.facebook.com/publicolli/">Facebook</a></li>
 	            </ul>
 	          </div>
 	        </div>

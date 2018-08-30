@@ -18,8 +18,8 @@
       </div>
     </div>	
     <div class="container">
-	    <div class="row">
-		    <div v-for="adv in advs" v-bind:key="adv.id" class="col s12 m4 l3">
+	    <div class="row" v-for="i in Math.ceil(advs.length / 4)">
+		    <div v-for="adv in advs.slice((i-1)*4, i*4)" v-bind:key="adv.id" class="col s12 m3">
           <router-link :to="{name: 'view-element', params:{adv_id: adv.id}}">
             <md-card class="black-text" md-with-hover>
             <md-ripple>
@@ -28,8 +28,13 @@
                   <img v-bind:src="adv.image"/>
                 </md-card-media>
                 <md-card-header>
-                  <div class="md-subhead">{{adv.title}}</div>
+                  <div class="md-subhead right-align">
+                    <md-icon>access_alarms</md-icon> Finaliza en {{adv.ends| moment("from", "now") }}
+                  </div>
                 </md-card-header>
+                <md-card-content>
+                  {{adv.title}}                  
+                </md-card-content>
             </md-card-area>
               <md-card-actions>
                 <md-button class="btn-flat disabled tachado">{{adv.sOriginalPrice}}</md-button>

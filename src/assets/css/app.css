@@ -17,3 +17,13 @@
 .tachado{
 	text-decoration:line-through !important;
 }
+
+.publicolli{
+	font-family: 'Pacifico', cursive;
+	color: #ffffff;
+	font-size: 250%;
+}
+
+a:not(.md-button):hover{
+	text-decoration: none;
+}

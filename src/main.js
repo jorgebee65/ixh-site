@@ -7,13 +7,20 @@ import 'materialize-css/dist/css/materialize.css'
 import 'vue-material/dist/vue-material.min.css'
 import './assets/css/app.css'
 import JQuery from 'jquery'
+const moment = require('moment')
+require('moment/locale/es')
+
 global.jQuery = jQuery
 global.$ = jQuery
 Vue.config.productionTip = false
 Vue.use(VueMaterial)
 
-//global.ENVIRONMENT = 'http://localhost:8080'
-global.ENVIRONMENT = 'http://ixhuatlancillo.com:8080'
+Vue.use(require('vue-moment'), {
+    moment
+})
+
+global.ENVIRONMENT = 'http://localhost:8080'
+//global.ENVIRONMENT = 'http://publicolli.com:8080'
 
 
 

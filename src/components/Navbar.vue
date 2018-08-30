@@ -1,24 +1,22 @@
 <template>
 	<div id="navbar">
-	  <md-toolbar class="md-primary green darken-3">
+	  <md-toolbar class="md-primary orange darken-3">
       <!--md-button class="md-icon-button" @click="showNavigation = true">
         <md-icon>menu</md-icon>
       </md-button-->
-      <md-button class="white-text" to="/">Ixhua</md-button>
+      <router-link class="publicolli" to="/">Publicolli</router-link>
       <div class="md-toolbar-section-end">
         <md-menu v-if="logOutBtn ===true" md-direction="bottom-start">
-	      <md-button class="white-text" md-menu-trigger>{{dispName}}</md-button>
+        	<md-avatar>
+		      <img :src="userFB.user.photoURL" alt="Avatar">
+		    </md-avatar>
+	      <md-button class="white-text" md-menu-trigger>{{userFB.user.displayName}}</md-button>
 	      <md-menu-content>
 	        <md-menu-item>Mis Cupones</md-menu-item>
 	        <md-menu-item @click="active = true">Cerrar Sesión</md-menu-item>
 	      </md-menu-content>
     	</md-menu>
         <md-button v-else @click="login" class="white-text" >Iniciar Sesión</md-button>
-      </div>
-      <div class="hide-on-med-and-up">
-      <md-button href="tel:+525554352034" class="md-icon-button md-raised grey lighten-4">
-        <md-icon>call</md-icon>
-      </md-button>
       </div>
       <div class="hide-on-small-only">
       <a class="waves-effect waves-light btn-flat white-text">55 5435-2034</a>
@@ -48,13 +46,15 @@
 </template>
 <script>
 	import firebase from 'firebase'
+	import axios from 'axios'
 	export default{
 		name: 'navbar',
 		data: () => ({
 		  logOutBtn:false,
 		  showNavigation: false,
 		  showSidepanel: false,
-		  dispName:'',
+		  userDB:null,
+		  userFB:null,
 		  active: false
 		}),
 		methods:{
@@ -63,6 +63,7 @@
 				if(firebase.auth().currentUser){
 					console.log('Hay usuario')
 					firebase.auth().currentUser.providerData.forEach(function (profile) {
+						console.log(profile)
 					    this.dispName = profile.displayName
 					  })
 					this.logOutBtn=true
@@ -78,10 +79,31 @@
 				provider.addScope('public_profile')
 				firebase.auth().signInWithPopup(provider)
 				.then((datosUsuario) =>{
-					//alert('Inicio sesión como: '+datosUsuario.user.displayName)
-					this.dispName = datosUsuario.user.displayName
-					this.logOutBtn= true
-					console.log('dropdown')
+					axios.get(global.ENVIRONMENT+'/ixh/users/'+datosUsuario.user.uid)
+					.then(response=>{
+				  		console.log(response.data)
+				  		this.userDB = response.data
+				  	})
+					.catch(e => {
+						    console.log('no se encontro usuario en bd')
+						    console.log('end query to DB')
+					  		console.log('insert in DB')
+							axios.post(global.ENVIRONMENT+'/ixh/users', {
+								displayName: datosUsuario.user.displayName,
+								email:datosUsuario.user.email,
+								photoURL:datosUsuario.user.photoURL,
+								uid:datosUsuario.user.uid
+							})
+							.then(response => {
+								console.log(response)
+							})
+						    .catch(e => {
+						      this.errors.push(e)
+						    })
+					})
+					this.userFB=datosUsuario
+					this.logOutBtn=true
+					$(".dropdown-trigger").dropdown()
 				}).catch(function(error){
 					console.log(error)
 				})
