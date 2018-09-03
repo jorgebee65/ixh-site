@@ -13,8 +13,10 @@
     "materialize-css": "^0.100.2",
     "vue": "^2.5.17",
     "vue-material": "^1.0.0-beta-10.2",
+    "vue-md-to": "^1.0.3",
     "vue-moment": "^4.0.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-sweetalert2": "^1.5.3"
   },
   "devDependencies": {
     "@vue/cli-service": "^3.0.1",

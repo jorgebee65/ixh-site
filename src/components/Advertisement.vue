@@ -10,19 +10,20 @@
 	        <div>{{adv.description}}</div>
 	      </div>
           <div class="col s12 m4">
-	        	<div>Descuento {{adv.discount}}</div>
-	        	<div class="center-align">
-	        		<a href="#" class="btn-flat disabled tachado">{{adv.sOriginalPrice}}</a>
-	        	</div>
-	        	<div class="light-green-text price center-align">{{adv.sPrice}}</div>
-	        	 <div class="center-align">
-			       <a @click="buy()" class="waves-effect waves-light btn">Información</a>
-			  	 </div>
+	        	
 	        	<div id="info-adv" class="viewport">
 			      <md-toolbar :md-elevation="1">
-			        <span class="md-title">Detalles del Anuncio</span>
+			        <span class="md-title">Descuento</span>
 			      </md-toolbar>
-
+			      <div class="row">
+		        	<div class="center-align">
+		        		<a href="#" class="btn-flat disabled tachado">{{adv.sOriginalPrice}}</a>
+		        	</div>
+		        	<div class="light-green-text price center-align">{{adv.sPrice}}</div>
+		        	 <div class="center-align">
+				       <a @click="buy()" class="waves-effect waves-light btn">Lo Quiero!</a>
+				  	 </div>
+				   </div>
 			      <md-list class="md-double-line">
 			        <md-subheader>Phone</md-subheader>
 
@@ -88,15 +89,25 @@
 	      </div>
 	  	</div>
       </div>
+      <md-dialog-confirm
+      :md-active.sync="active"
+      md-title="Iniciar Sesión"
+      md-content="Para adquirir el cupón debe iniciar sesión"
+      md-confirm-text="Aceptar"
+      md-cancel-text="Cancelar"
+      @md-cancel="onCancel"
+      @md-confirm="logout" />
 	</div>
 </template>
 <script>
 	import axios from 'axios'
+	import firebase from 'firebase'
 	export default{
 		name:'view-element',
 	data(){
 			return {
-				adv : ''
+				adv : '',
+				active: false
 			}
 	},
 	beforeRouteEnter(to,from,next){
@@ -115,11 +126,46 @@
 			console.log(this.adv.latitude)
 		},
 		buy(){
-			$('#info-adv').show()
+			console.log('comprar')
+			if(firebase.auth().currentUser){
+					var uidFromPro = firebase.auth().currentUser.uid
+					console.log('uaidi:'+uidFromPro)
+					axios.post(global.ENVIRONMENT+'/ixh/cupons', {
+									user:{uid:uidFromPro},
+									adv:this.adv
+					})
+					.then(response => {
+						console.log(response)
+						this.$swal({
+						  position: 'center',
+						  type: 'success',
+						  title: 'Tu cupón está disponible en "Mis cupones"',
+						  showConfirmButton: false,
+						  timer: 1500
+						})
+					})
+					.catch(e => {
+						this.$swal({
+						  type: 'error',
+						  title: 'Oops...',
+						  text: 'El cupón ha caducado!'
+						})
+					    this.errors.push(e)
+					})
+				
+			}else{
+				this.active = true
+			}
+			console.log('comprado')
+		},
+		onCancel:function(){
+			console.log('Cancel')
+		},
+		logout:function(){
+			console.log('Iniciar Sesión')
 		}
 	},
 	mounted(){
-		$('#info-adv').hide()
 		this.$nextTick(function () {
 	    // Code that will run only after the
 	    // entire view has been rendered

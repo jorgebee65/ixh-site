@@ -12,8 +12,8 @@
 		    </md-avatar>
 	      <md-button class="white-text" md-menu-trigger>{{userFB.user.displayName}}</md-button>
 	      <md-menu-content>
-	        <md-menu-item>Mis Cupones</md-menu-item>
-	        <md-menu-item @click="active = true">Cerrar Sesión</md-menu-item>
+			    <md-menu-item v-md-to="{name: 'mycupons-el', params:{usr_id: userDB.id}}">Mis Cupones</md-menu-item>
+	        	<md-menu-item @click="active = true">Cerrar Sesión</md-menu-item>
 	      </md-menu-content>
     	</md-menu>
         <md-button v-else @click="login" class="white-text" >Iniciar Sesión</md-button>
@@ -45,8 +45,8 @@
 	</div>
 </template>
 <script>
-	import firebase from 'firebase'
 	import axios from 'axios'
+	import firebase from 'firebase'
 	export default{
 		name: 'navbar',
 		data: () => ({
@@ -58,14 +58,11 @@
 		  active: false
 		}),
 		methods:{
-			validate:function(){
+			validate(){
 				console.log('validando inicio de sesión')
 				if(firebase.auth().currentUser){
 					console.log('Hay usuario')
-					firebase.auth().currentUser.providerData.forEach(function (profile) {
-						console.log(profile)
-					    this.dispName = profile.displayName
-					  })
+					this.dispName = firebase.auth().currentUser.displayName
 					this.logOutBtn=true
 					$(".dropdown-trigger").dropdown()
 				}else{
@@ -85,9 +82,6 @@
 				  		this.userDB = response.data
 				  	})
 					.catch(e => {
-						    console.log('no se encontro usuario en bd')
-						    console.log('end query to DB')
-					  		console.log('insert in DB')
 							axios.post(global.ENVIRONMENT+'/ixh/users', {
 								displayName: datosUsuario.user.displayName,
 								email:datosUsuario.user.email,

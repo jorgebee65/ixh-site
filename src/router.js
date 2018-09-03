@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Advertisement from '@/components/Advertisement'
 import Filtered from '@/components/Filtered'
+import Cupons from '@/components/Cupons'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ let router = new Router({
       path: '/filter/:cat_id',
       name: 'filtered-element',
       component: Filtered
+    },
+    {
+      path: '/MyCupons/:usr_id',
+      name: 'mycupons-el',
+      component: Cupons
     }
   ]
 })

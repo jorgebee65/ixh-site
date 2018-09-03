@@ -16,7 +16,8 @@
 			  </div>
 		  </div>
       </div>
-    </div>	
+    </div>
+
     <div class="container">
 	    <div class="row" v-for="i in Math.ceil(advs.length / 4)">
 		    <div v-for="adv in advs.slice((i-1)*4, i*4)" v-bind:key="adv.id" class="col s12 m3">
@@ -29,7 +30,7 @@
                 </md-card-media>
                 <md-card-header>
                   <div class="md-subhead right-align">
-                    <md-icon>access_alarms</md-icon> Finaliza en {{adv.ends| moment("from", "now") }}
+                    <md-icon>access_alarms</md-icon> Finaliza {{adv.ends| moment("from", "now") }}
                   </div>
                 </md-card-header>
                 <md-card-content>
@@ -79,7 +80,7 @@ export default {
 		  })
   		setInterval(function(){
   			$('.carousel.carousel-slider').carousel('next')
-  		},4000)
+  		},5000)
   	})
   }
 }
