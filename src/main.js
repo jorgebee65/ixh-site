@@ -10,6 +10,7 @@ import JQuery from 'jquery'
 import mdTo from "vue-md-to"
 import VueSweetalert2 from 'vue-sweetalert2'
 
+
 const moment = require('moment')
 require('moment/locale/es')
 

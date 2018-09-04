@@ -22,7 +22,6 @@
 	  },
 	  mounted() {
 	  	axios.get(global.ENVIRONMENT+'/ixh/groups').then(response=>{
-	      console.log(response.data)
 	      this.cats = response.data
 	    })
 	  }

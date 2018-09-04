@@ -52,7 +52,7 @@
 
 <script>
 // @ is an alias to /src
-import db from '../components/firebaseInit'
+import firebaseInit from '../components/firebaseInit'
 import Sidemenu from '../components/Sidemenu'
 import axios from 'axios'
 export default {
@@ -68,7 +68,6 @@ export default {
   },
   mounted() {
   	axios.get(global.ENVIRONMENT+'/ixh/advs').then(response=>{
-  		console.log(response.data)
   		this.advs = response.data
   	})
    

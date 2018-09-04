@@ -25,7 +25,7 @@ let router = new Router({
       component: Filtered
     },
     {
-      path: '/MyCupons/:usr_id',
+      path: '/myCupons/:usr_id',
       name: 'mycupons-el',
       component: Cupons
     }

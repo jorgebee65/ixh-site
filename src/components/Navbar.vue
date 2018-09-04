@@ -1,16 +1,13 @@
 <template>
 	<div id="navbar">
 	  <md-toolbar class="md-primary orange darken-3">
-      <!--md-button class="md-icon-button" @click="showNavigation = true">
-        <md-icon>menu</md-icon>
-      </md-button-->
       <router-link class="publicolli" to="/">Publicolli</router-link>
       <div class="md-toolbar-section-end">
-        <md-menu v-if="logOutBtn ===true" md-direction="bottom-start">
+        <md-menu v-if="logOutBtn === true" md-direction="bottom-start">
         	<md-avatar>
-		      <img :src="userFB.user.photoURL" alt="Avatar">
+		      <img :src="userDB.photoURL" alt="Avatar">
 		    </md-avatar>
-	      <md-button class="white-text" md-menu-trigger>{{userFB.user.displayName}}</md-button>
+	      <md-button class="white-text" md-menu-trigger>{{userDB.displayName}}</md-button>
 	      <md-menu-content>
 			    <md-menu-item v-md-to="{name: 'mycupons-el', params:{usr_id: userDB.id}}">Mis Cupones</md-menu-item>
 	        	<md-menu-item @click="active = true">Cerrar Sesión</md-menu-item>
@@ -22,6 +19,10 @@
       <a class="waves-effect waves-light btn-flat white-text">55 5435-2034</a>
   	  </div>
     </md-toolbar>
+    guau
+    {{userDB.displayName}}
+    {{prueba}}
+    perro
     <md-dialog-confirm
       :md-active.sync="active"
       md-title="Cerrar Sesión"
@@ -30,18 +31,6 @@
       md-cancel-text="Cancelar"
       @md-cancel="onCancel"
       @md-confirm="logout" />
-    <!--md-drawer :md-active.sync="showNavigation">
-      <md-toolbar class="md-transparent" md-elevation="0">
-        <span class="md-title">Ixhua</span>
-      </md-toolbar>
-
-      <md-list>
-        <md-list-item>
-          <md-icon>move_to_inbox</md-icon>
-          <span class="md-list-item-text"><router-link to="/"> Inicio</router-link></span>
-        </md-list-item>
-      </md-list>
-    </md-drawer-->
 	</div>
 </template>
 <script>
@@ -53,22 +42,23 @@
 		  logOutBtn:false,
 		  showNavigation: false,
 		  showSidepanel: false,
-		  userDB:null,
-		  userFB:null,
-		  active: false
+		  userDB:'',
+		  active: false,
 		}),
 		methods:{
-			validate(){
-				console.log('validando inicio de sesión')
-				if(firebase.auth().currentUser){
-					console.log('Hay usuario')
-					this.dispName = firebase.auth().currentUser.displayName
-					this.logOutBtn=true
-					$(".dropdown-trigger").dropdown()
-				}else{
-					console.log('no Hay usuario')
-					this.logOutBtn=false
-				}
+			validate:function(){
+				firebase.auth().onAuthStateChanged((user)=>{
+					if (user) {
+					axios.get(global.ENVIRONMENT+'/ixh/users/'+firebase.auth().currentUser.uid)
+					.then(response=>{
+				  		this.userDB = response.data
+				  	})
+				  	this.logOutBtn=true
+				  	$(".dropdown-trigger").dropdown()
+				  } else {
+						this.logOutBtn=false
+				  }
+				})
 			},
 			login:function(){
 				console.log('Login')
@@ -78,7 +68,7 @@
 				.then((datosUsuario) =>{
 					axios.get(global.ENVIRONMENT+'/ixh/users/'+datosUsuario.user.uid)
 					.then(response=>{
-				  		console.log(response.data)
+				  		console.log('ID:'+response.data.id)
 				  		this.userDB = response.data
 				  	})
 					.catch(e => {
@@ -95,7 +85,6 @@
 						      this.errors.push(e)
 						    })
 					})
-					this.userFB=datosUsuario
 					this.logOutBtn=true
 					$(".dropdown-trigger").dropdown()
 				}).catch(function(error){
@@ -107,7 +96,7 @@
 					var provider = new firebase.auth.FacebookAuthProvider()
 					firebase.auth().signOut()
 					.then(()=>{
-						this.logOutBtn= false
+						console.log('cerrar sesión')
 					})
 					this.validate()
 				//}

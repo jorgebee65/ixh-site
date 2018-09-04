@@ -128,31 +128,31 @@
 		buy(){
 			console.log('comprar')
 			if(firebase.auth().currentUser){
-					var uidFromPro = firebase.auth().currentUser.uid
-					console.log('uaidi:'+uidFromPro)
-					axios.post(global.ENVIRONMENT+'/ixh/cupons', {
-									user:{uid:uidFromPro},
-									adv:this.adv
+				console.log('Hay usuario desde Obtener Cupon')
+				var uidFromPro = firebase.auth().currentUser.uid
+				console.log('uaidi:'+uidFromPro)
+				axios.post(global.ENVIRONMENT+'/ixh/cupons', {
+					user:{uid:uidFromPro},
+					adv:this.adv
+				})
+				.then(response => {
+					console.log(response)
+					this.$swal({
+					  position: 'center',
+					  type: 'success',
+					  title: 'Tu cupón está disponible en "Mis cupones"',
+					  showConfirmButton: false,
+					  timer: 1500
 					})
-					.then(response => {
-						console.log(response)
-						this.$swal({
-						  position: 'center',
-						  type: 'success',
-						  title: 'Tu cupón está disponible en "Mis cupones"',
-						  showConfirmButton: false,
-						  timer: 1500
-						})
+				})
+				.catch(e => {
+					this.$swal({
+					  type: 'error',
+					  title: 'Oops...',
+					  text: 'El cupón ha caducado!'
 					})
-					.catch(e => {
-						this.$swal({
-						  type: 'error',
-						  title: 'Oops...',
-						  text: 'El cupón ha caducado!'
-						})
-					    this.errors.push(e)
-					})
-				
+				    this.errors.push(e)
+				})
 			}else{
 				this.active = true
 			}
