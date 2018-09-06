@@ -13,16 +13,13 @@
 	        	<md-menu-item @click="active = true">Cerrar Sesión</md-menu-item>
 	      </md-menu-content>
     	</md-menu>
-        <md-button v-else @click="login" class="white-text" >Iniciar Sesión</md-button>
+        <md-button v-else @click="login" class="white-text" >Works</md-button>
+        <md-button to="/login" class="white-text" >Iniciar Sesión</md-button>
       </div>
       <div class="hide-on-small-only">
       <a class="waves-effect waves-light btn-flat white-text">55 5435-2034</a>
   	  </div>
     </md-toolbar>
-    guau
-    {{userDB.displayName}}
-    {{prueba}}
-    perro
     <md-dialog-confirm
       :md-active.sync="active"
       md-title="Cerrar Sesión"
