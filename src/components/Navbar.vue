@@ -3,7 +3,7 @@
 	  <md-toolbar class="md-primary orange darken-3">
       <router-link class="publicolli" to="/">Publicolli</router-link>
       <div class="md-toolbar-section-end">
-        <md-menu v-if="isLoggedIn === true" md-direction="bottom-start">
+        <md-menu v-if="isLoggedIn" md-direction="bottom-start">
         	<md-avatar>
 		      <img :src="userDB.photoURL" alt="Avatar">
 		    </md-avatar>
@@ -13,9 +13,8 @@
 	        	<md-menu-item @click="active = true">Cerrar Sesión</md-menu-item>
 	      </md-menu-content>
     	</md-menu>
-        <md-button v-else @click="login" class="white-text" >Works</md-button>
-        <md-button to="/login" class="white-text" >Iniciar Sesión</md-button>
-        <md-button to="/register" class="white-text" >Registrar</md-button>
+        <md-button v-if="!isLoggedIn" to="/login" class="white-text" >Iniciar Sesión</md-button>
+        <md-button v-if="!isLoggedIn" to="/register" class="white-text" >Registrar</md-button>
       </div>
       <div class="hide-on-small-only">
       <a class="waves-effect waves-light btn-flat white-text">55 5435-2034</a>
@@ -56,38 +55,6 @@
 				  } else {
 						this.isLoggedIn=false
 				  }
-				})
-			},
-			login:function(){
-				console.log('Login')
-				var provider = new firebase.auth.FacebookAuthProvider()
-				provider.addScope('public_profile')
-				firebase.auth().signInWithPopup(provider)
-				.then((datosUsuario) =>{
-					console.log('Searching user from Navbar')
-					axios.get(global.ENVIRONMENT+'/ixh/users/'+datosUsuario.user.uid)
-					.then(response=>{
-				  		console.log('ID:'+response.data.id)
-				  		this.userDB = response.data
-				  	})
-					.catch(e => {
-							axios.post(global.ENVIRONMENT+'/ixh/users', {
-								displayName: datosUsuario.user.displayName,
-								email:datosUsuario.user.email,
-								photoURL:datosUsuario.user.photoURL,
-								uid:datosUsuario.user.uid
-							})
-							.then(response => {
-								console.log(response)
-							})
-						    .catch(e => {
-						      this.errors.push(e)
-						    })
-					})
-					this.isLoggedIn=true
-					$(".dropdown-trigger").dropdown()
-				}).catch(function(error){
-					console.log(error)
 				})
 			},
 			logout:function(){

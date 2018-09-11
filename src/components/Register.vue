@@ -9,7 +9,7 @@
 	  		<h6 class="center">¿Ya tienes una cuenta? <router-link to="/login"> Inicia Sesión </router-link></h6>
 	  		<div class="col s12 m6 center">
 	  			<h5>Con tus redes sociales</h5>
-	  			<a class="waves-effect waves-light btn-large facebook"><i class="material-icons left">cloud</i>Facebook</a>
+	  			<a v-on:click="registerFB" class="waves-effect waves-light btn-large facebook"><i class="material-icons left">cloud</i>Facebook</a>
 	  		</div>
 	  		<div class="col s12 m6 center">
 	  			<h5>Crea un usuario</h5>
@@ -102,6 +102,37 @@
 				alert(err.message)
 			)
 			e.preventDefault()
+		},
+		registerFB:function(){
+			console.log('Regitro con Facebook')
+			var provider = new firebase.auth.FacebookAuthProvider()
+			provider.addScope('public_profile')
+			firebase.auth().signInWithPopup(provider)
+			.then((datosUsuario) =>{
+				console.log('Searching user from Navbar')
+				axios.get(global.ENVIRONMENT+'/ixh/users/'+datosUsuario.user.uid)
+				.then(response=>{
+			  		alert('Ya tienes cuenta, inicia sesión')
+			  		this.$router.push('/login')
+			  	})
+				.catch(e => {
+					axios.post(global.ENVIRONMENT+'/ixh/users', {
+						displayName: datosUsuario.user.displayName,
+						email:datosUsuario.user.email,
+						photoURL:datosUsuario.user.photoURL,
+						uid:datosUsuario.user.uid
+					})
+					.then(response => {
+						alert('Cuenta creada correctamente, inicia sesión')
+			  			this.$router.push('/login')
+					})
+				    .catch(e => {
+				      this.errors.push(e)
+				    })
+				})
+			}).catch(function(error){
+				console.log(error)
+			})
 		}
 	}
 }

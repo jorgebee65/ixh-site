@@ -9,7 +9,7 @@
 	  		<h5 class="center">¿Ya tienes una cuenta? ingresa:</h5>
 	  		<div class="col s12 m6 center">
 	  			<h5>Con tus redes sociales</h5>
-	  			<a class="waves-effect waves-light btn-large facebook"><i class="material-icons left">cloud</i>Facebook</a>
+	  			<a v-on:click="loginFB" class="waves-effect waves-light btn-large facebook"><i class="material-icons left">cloud</i>Facebook</a>
 	  		</div>
 	  		<div class="col s12 m6 center">
 	  			<h5>Con tu email</h5>
@@ -33,6 +33,7 @@
 
 <script>
 	import firebase from 'firebase'
+	import axios from 'axios'
 	export default{
 		name:'login-view',
 	data(){
@@ -52,6 +53,38 @@
 				alert(err.message)
 			)
 			e.preventDefault()
+		},
+		loginFB:function(){
+			console.log('Login')
+			var provider = new firebase.auth.FacebookAuthProvider()
+			provider.addScope('public_profile')
+			firebase.auth().signInWithPopup(provider)
+			.then((datosUsuario) =>{
+				console.log('Searching user from Navbar')
+				axios.get(global.ENVIRONMENT+'/ixh/users/'+datosUsuario.user.uid)
+				.then(response=>{
+			  		console.log('ID:'+response.data.id)
+			  		this.userDB = response.data
+			  	})
+				.catch(e => {
+					axios.post(global.ENVIRONMENT+'/ixh/users', {
+						displayName: datosUsuario.user.displayName,
+						email:datosUsuario.user.email,
+						photoURL:datosUsuario.user.photoURL,
+						uid:datosUsuario.user.uid
+					})
+					.then(response => {
+						console.log(response)
+					})
+				    .catch(e => {
+				      this.errors.push(e)
+				    })
+				})
+				this.isLoggedIn=true
+				$(".dropdown-trigger").dropdown()
+			}).catch(function(error){
+				console.log(error)
+			})
 		}
 	}
 }
