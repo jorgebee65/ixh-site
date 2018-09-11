@@ -3,7 +3,7 @@
 	  <md-toolbar class="md-primary orange darken-3">
       <router-link class="publicolli" to="/">Publicolli</router-link>
       <div class="md-toolbar-section-end">
-        <md-menu v-if="logOutBtn === true" md-direction="bottom-start">
+        <md-menu v-if="isLoggedIn === true" md-direction="bottom-start">
         	<md-avatar>
 		      <img :src="userDB.photoURL" alt="Avatar">
 		    </md-avatar>
@@ -15,6 +15,7 @@
     	</md-menu>
         <md-button v-else @click="login" class="white-text" >Works</md-button>
         <md-button to="/login" class="white-text" >Iniciar Sesión</md-button>
+        <md-button to="/register" class="white-text" >Registrar</md-button>
       </div>
       <div class="hide-on-small-only">
       <a class="waves-effect waves-light btn-flat white-text">55 5435-2034</a>
@@ -36,7 +37,7 @@
 	export default{
 		name: 'navbar',
 		data: () => ({
-		  logOutBtn:false,
+		  isLoggedIn:false,
 		  showNavigation: false,
 		  showSidepanel: false,
 		  userDB:'',
@@ -50,10 +51,10 @@
 					.then(response=>{
 				  		this.userDB = response.data
 				  	})
-				  	this.logOutBtn=true
+				  	this.isLoggedIn=true
 				  	$(".dropdown-trigger").dropdown()
 				  } else {
-						this.logOutBtn=false
+						this.isLoggedIn=false
 				  }
 				})
 			},
@@ -63,6 +64,7 @@
 				provider.addScope('public_profile')
 				firebase.auth().signInWithPopup(provider)
 				.then((datosUsuario) =>{
+					console.log('Searching user from Navbar')
 					axios.get(global.ENVIRONMENT+'/ixh/users/'+datosUsuario.user.uid)
 					.then(response=>{
 				  		console.log('ID:'+response.data.id)
@@ -82,7 +84,7 @@
 						      this.errors.push(e)
 						    })
 					})
-					this.logOutBtn=true
+					this.isLoggedIn=true
 					$(".dropdown-trigger").dropdown()
 				}).catch(function(error){
 					console.log(error)
@@ -93,7 +95,7 @@
 					var provider = new firebase.auth.FacebookAuthProvider()
 					firebase.auth().signOut()
 					.then(()=>{
-						console.log('cerrar sesión')
+						this.$router.push('/')
 					})
 					this.validate()
 				//}

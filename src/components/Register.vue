@@ -48,11 +48,11 @@
 					</div>
 				</div>
 				<div class="row">
-					<md-checkbox v-model="array" value="1">Acepto los términos y condiciones y las 
+					<md-checkbox v-model="privacyPolicy" value="1">Acepto los términos y condiciones y las 
 						<router-link to="/aviso">politicas de privacidad</router-link>
 					</md-checkbox>
 				</div>
-			    <md-button class="md-raised md-primary center">Registrar</md-button>
+			    <md-button @click="register" class="md-raised md-primary center">Registrar</md-button>
 	  		</div>
 	    </div>
 	    <div class="row">
@@ -63,13 +63,46 @@
 </template>
 
 <script>
+	import firebase from 'firebase'
+	import axios from 'axios'
 	export default{
 		name:'register-view',
 	data(){
 			return {
-				user:'',
-				password:''
+				email:'',
+				password:'',
+				name:'',
+				lastname:'',
+				password2:'',
+				privacyPolicy:false
 			}
+	},
+	methods:{
+		register:function(e){
+			firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+			.then((datosUsuario) =>{
+				console.log('DatoUsuario'+datosUsuario)
+				console.log('DatoUsuario mas Usuario'+datosUsuario.user)
+				alert('Cuenta creada '+this.email)
+				axios.post(global.ENVIRONMENT+'/ixh/users', {
+								displayName: this.name,
+								email:this.email,
+								photoURL:'https://txstate.rightanswers.com/portal//app/images/default-avatar.jpg',
+								uid:datosUsuario.user.uid
+							})
+							.then(response => {
+								console.log(response)
+							})
+						    .catch(e => {
+						      this.errors.push(e)
+						    })
+				this.$router.push('/')
+			},
+			err => 
+				alert(err.message)
+			)
+			e.preventDefault()
+		}
 	}
 }
 </script>

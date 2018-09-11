@@ -9,6 +9,8 @@ import './assets/css/app.css'
 import JQuery from 'jquery'
 import mdTo from "vue-md-to"
 import VueSweetalert2 from 'vue-sweetalert2'
+import firebase from 'firebase'
+import './components/firebaseInit'
 
 
 const moment = require('moment')
@@ -27,9 +29,13 @@ Vue.use(VueSweetalert2)
 global.ENVIRONMENT = 'http://localhost:8080'
 //global.ENVIRONMENT = 'http://publicolli.com:8080'
 
+let app 
+firebase.auth().onAuthStateChanged(user=>{
+	if(!app){
+		app = new Vue({
+		  router,
+		  render: h => h(App)
+		}).$mount('#app')
+	}
+})
 
-
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')

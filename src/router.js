@@ -7,6 +7,7 @@ import Cupons from '@/components/Cupons'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Aviso from '@/components/AvisoDePrivacidad'
+import firebase from 'firebase'
 
 Vue.use(Router)
 
@@ -20,7 +21,10 @@ let router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        requiresGuest:true
+      }
     },
     {
       path: '/aviso',
@@ -30,7 +34,10 @@ let router = new Router({
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+       meta: {
+        requiresGuest:true
+      }
     },
     {
       path: '/:adv_id',
@@ -45,9 +52,42 @@ let router = new Router({
     {
       path: '/myCupons/:usr_id',
       name: 'mycupons-el',
-      component: Cupons
+      component: Cupons,
+      meta: {
+        requiresAuth:true
+      }
     }
   ]
 })
 
-export default router;
+router.beforeEach((to,from,next) =>{
+  if(to.matched.some(record => record.meta.requiresAuth)){
+    firebase.auth().onAuthStateChanged((user)=>{
+    if (!user) {
+      next({
+        path:'/login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }else{
+      next();
+    }})
+  }else if(to.matched.some(record => record.meta.requiresGuest)){
+     firebase.auth().onAuthStateChanged((user)=>{
+     if (user) {
+      next({
+        path:'/',
+        query: {
+          redirect: to.fullPath
+        }
+      });
+    }else{
+      next()
+    }})
+  }else{
+    next()
+  }
+})
+
+export default router
