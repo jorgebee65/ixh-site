@@ -46,7 +46,14 @@
 		login:function(e){
 			firebase.auth().signInWithEmailAndPassword(this.email, this.password)
 			.then((datosUsuario) =>{
-				alert('Ha iniciado sesión con: '+this.email)
+//				alert('Ha iniciado sesión con: '+this.email)
+				this.$swal({
+					  position: 'center',
+					  type: 'success',
+					  title: 'Ha iniciado sesión con: '+this.email,
+					  showConfirmButton: true,
+					  timer: 1500
+					})
 				this.$router.push('/')
 			},
 			err => 

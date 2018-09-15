@@ -12,7 +12,6 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import firebase from 'firebase'
 import './components/firebaseInit'
 
-
 const moment = require('moment')
 require('moment/locale/es')
 

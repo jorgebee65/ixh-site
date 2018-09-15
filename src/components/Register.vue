@@ -14,16 +14,18 @@
 	  		<div class="col s12 m6 center">
 	  			<h5>Crea un usuario</h5>
 	  			<div class="row">
-		  			<md-field md-clearable>
+		  			<md-field :class="messageClass">
 				      <label>Email</label>
-				      <md-input v-model="email"></md-input>
+				      <md-input v-model="email" required></md-input>
+				      <span class="md-error">Sigue intentando... Sigo esperando por un email correcto</span>
 				    </md-field>
 				</div>
 				<div class="row">
 					<div class="col s12 m6 center">
-						 <md-field>
+						 <md-field :class="messageName">
 					      <label>Nombre</label>
-					      <md-input v-model="name"></md-input>
+					      <md-input v-model="name" required></md-input>
+					      <span class="md-error">Campo requerido</span>
 					    </md-field>
 					</div>
 					<div class="col s12 m6 center">
@@ -35,15 +37,17 @@
 				</div>
 				<div class="row">
 					<div class="col s12 m6 center">
-						 <md-field>
+						 <md-field :class="messagePassword">
 					      <label>Password</label>
-					      <md-input v-model="password" type="password"></md-input>
+					      <md-input v-model="password" type="password" required></md-input>
+					      <span class="md-error">Campo requerido</span>
 					    </md-field>
 					</div>
 					<div class="col s12 m6 center">
-						<md-field :md-toggle-password="false">
+						<md-field :md-toggle-password="false" :class="messageConfirmPass">
 					      <label>Confirmar Password</label>
 					      <md-input v-model="password2" type="password"></md-input>
+					      <span class="md-error">No coincide</span>
 					    </md-field>	
 					</div>
 				</div>
@@ -74,17 +78,24 @@
 				name:'',
 				lastname:'',
 				password2:'',
-				privacyPolicy:false
+				privacyPolicy:false,
+				hasMessages: false,
+				passMessages: false,
+				nameMessage: false,
+				passwordMessage: false,
+				validated:false
 			}
 	},
 	methods:{
 		register:function(e){
-			firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-			.then((datosUsuario) =>{
-				console.log('DatoUsuario'+datosUsuario)
-				console.log('DatoUsuario mas Usuario'+datosUsuario.user)
-				alert('Cuenta creada '+this.email)
-				axios.post(global.ENVIRONMENT+'/ixh/users', {
+			this.validate()
+			if(this.validated){
+				firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+				.then((datosUsuario) =>{
+					//console.log('DatoUsuario'+datosUsuario)
+					//console.log('DatoUsuario mas Usuario'+datosUsuario.user)
+					//alert('Cuenta creada '+this.email)
+					axios.post(global.ENVIRONMENT+'/ixh/users', {
 								displayName: this.name,
 								email:this.email,
 								photoURL:'https://txstate.rightanswers.com/portal//app/images/default-avatar.jpg',
@@ -96,12 +107,29 @@
 						    .catch(e => {
 						      this.errors.push(e)
 						    })
-				this.$router.push('/')
-			},
-			err => 
-				alert(err.message)
-			)
-			e.preventDefault()
+					this.$swal({
+					  position: 'center',
+					  type: 'success',
+					  title: 'Cuenta creada correctamente, inicia sesión',
+					  showConfirmButton: true,
+					  timer: 1500
+					})
+					this.$router.push('/')
+				},
+				err => {
+					//alert(err.message)
+					//console.log(err)
+				      this.$swal({
+						  type: 'error',
+						  title: 'Oops...',
+						  text: err.message
+						})
+					}
+				)
+				e.preventDefault()
+			}else{
+				console.log('some fields are no valid')
+			}
 		},
 		registerFB:function(){
 			console.log('Regitro con Facebook')
@@ -123,7 +151,13 @@
 						uid:datosUsuario.user.uid
 					})
 					.then(response => {
-						alert('Cuenta creada correctamente, inicia sesión')
+						this.$swal({
+						  position: 'center',
+						  type: 'success',
+						  title: 'Cuenta creada correctamente, inicia sesión',
+						  showConfirmButton: true,
+						  timer: 1500
+						})
 			  			this.$router.push('/login')
 					})
 				    .catch(e => {
@@ -133,12 +167,93 @@
 			}).catch(function(error){
 				console.log(error)
 			})
+		},
+		check_email(value){
+			if (/^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/.test(value))
+			{
+				this.hasMessages = false
+				console.log('Si')
+			}else{
+				this.hasMessages = true
+				console.log('No')
+			}
+		},
+		check_pass(value){
+			if(value === this.password){
+				this.passMessages = false
+			}else{
+				this.passMessages = true
+			}
+		},
+		validate(){
+			if(this.name==''){
+				this.nameMessage=true
+			}
+			if(this.email==''){
+				this.hasMessages=true
+			}
+			if(this.password == ''){
+				this.passwordMessage = true
+			}
+			if(!this.nameMessage && !this.hasMessages && !this.passwordMessage ){
+				this.validated = true
+			}else{
+			this.validated = false
+			}
 		}
-	}
+	},
+    watch:{
+    	email(value){
+			this.email = value
+			this.check_email(value)
+		},
+		password2(value){
+			this.check_pass(value)
+		},
+		name(value){
+			if(value==''){
+				this.nameMessage=true
+			}else{
+				this.nameMessage=false
+			}
+		},
+		password(value){
+			if(value==''){
+				this.passwordMessage=true
+			}else{
+				this.passwordMessage=false
+			}
+		}
+    },
+    computed: {
+      messageClass () {
+        return {
+          'md-invalid': this.hasMessages
+        }
+      },
+      messageConfirmPass(){
+      	 return {
+          'md-invalid': this.passMessages
+        }
+      },
+      messageName(){
+      	return {
+          'md-invalid': this.nameMessage
+        }
+      },
+      messagePassword(){
+      	return {
+          'md-invalid': this.passwordMessage
+        }
+      }
+    }
 }
 </script>
 <style>
 .facebook {
 	background-color: #3B5998 !important;
+}
+.md-error{
+	color: #EF6C00 !important;
 }
 </style>

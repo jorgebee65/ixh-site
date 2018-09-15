@@ -1,9 +1,10 @@
 <template>
   <div class="filtered-view">
+  	<div class="row"/>
   	<div class="row">
   		<div class="container">
   			<form>
-  			<div class="col s8 m6">
+  			<div class="input-field col s8 m6">
 		  		<md-field>
 		          <label for="category">Filtrar</label>
 		          <md-select v-model="catSelected" name="category" id="category">
@@ -11,9 +12,9 @@
 		          </md-select>
 		        </md-field>
 	    	</div>
-	    </form>
-	    	<div class="col s4 m2">
-	    		<md-button v-on:click="doSearch" class="md-primary">Buscar</md-button>
+	    	</form>
+	    	<div class="input-field s4 m2">
+	    		<a v-on:click="doSearch" class="waves-effect waves-light btn">Buscar</a>
 	    	</div>
   		</div>
     </div>

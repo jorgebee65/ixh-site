@@ -93,10 +93,10 @@
       :md-active.sync="active"
       md-title="Iniciar Sesión"
       md-content="Para adquirir el cupón debe iniciar sesión"
-      md-confirm-text="Aceptar"
+      md-confirm-text="Iniciar Sesión"
       md-cancel-text="Cancelar"
       @md-cancel="onCancel"
-      @md-confirm="logout" />
+      @md-confirm="goLogin" />
 	</div>
 </template>
 <script>
@@ -161,8 +161,9 @@
 		onCancel:function(){
 			console.log('Cancel')
 		},
-		logout:function(){
+		goLogin:function(){
 			console.log('Iniciar Sesión')
+			this.$router.push('/login')
 		}
 	},
 	mounted(){
