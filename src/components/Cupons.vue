@@ -20,7 +20,7 @@
           		{{cup.adv.description}}
        		  </md-card-content>
        		  <md-card-actions>
-		        <md-button class="md-raised md-accent" @click="download">Descargar</md-button>
+		        <md-button class="md-raised md-accent" @click="download(cup.code)">Descargar</md-button>
 		      </md-card-actions>
 		    </md-card>
 	    </div>
@@ -30,6 +30,7 @@
 
 <script>
 	import axios from 'axios'
+	import firebase from 'firebase'
 	export default{
 		name:'mycupons-el',
 	data(){
@@ -50,27 +51,36 @@
 			'$route':'fetchData'
 	},
 	methods:{
-		download(){
-			axios(global.ENVIRONMENT+'/ixh/cupons/A7I2Z', {
-			    method: 'GET',
-			    headers: {
-				    uid: 'UNzalfdnL2OWFwuzJyya7qmiR8v1',
-				  },
-			    responseType: 'blob' //Force to receive data in a Blob Format
-			})
-			.then(response => {
-			//Create a Blob from the PDF Stream
-			    const file = new Blob(
-			      [response.data], 
-			      {type: 'application/pdf'});
-			//Build a URL from the file
-			    const fileURL = URL.createObjectURL(file);
-			//Open the URL on new Window
-			    window.open(fileURL);
-			})
-			.catch(error => {
-			    console.log(error);
-			})
+		download(code){
+			console.log(code)
+			firebase.auth().onAuthStateChanged((user)=>{
+				if (user) {
+						var fuid = firebase.auth().currentUser.uid
+						axios(global.ENVIRONMENT+'/ixh/cupons/'+code, {
+					    method: 'GET',
+					    headers: {
+						    uid: fuid ,
+						  },
+					    responseType: 'blob' //Force to receive data in a Blob Format
+						})
+						.then(response => {
+						//Create a Blob from the PDF Stream
+						    const file = new Blob(
+						      [response.data], 
+						      {type: 'application/pdf'});
+						//Build a URL from the file
+						    const fileURL = URL.createObjectURL(file);
+						//Open the URL on new Window
+						    window.open(fileURL);
+						})
+						.catch(error => {
+						    console.log(error);
+						})
+					}else{
+						console.log('Debe iniciar sesión')
+					}
+				})
+			
 		}
 	}
 }
