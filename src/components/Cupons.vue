@@ -20,7 +20,7 @@
           		{{cup.adv.description}}
        		  </md-card-content>
        		  <md-card-actions>
-		        <md-button class="md-raised md-accent">Descargar</md-button>
+		        <md-button class="md-raised md-accent" @click="download">Descargar</md-button>
 		      </md-card-actions>
 		    </md-card>
 	    </div>
@@ -50,7 +50,28 @@
 			'$route':'fetchData'
 	},
 	methods:{
-		
+		download(){
+			axios(global.ENVIRONMENT+'/ixh/cupons/A7I2Z', {
+			    method: 'GET',
+			    headers: {
+				    uid: 'UNzalfdnL2OWFwuzJyya7qmiR8v1',
+				  },
+			    responseType: 'blob' //Force to receive data in a Blob Format
+			})
+			.then(response => {
+			//Create a Blob from the PDF Stream
+			    const file = new Blob(
+			      [response.data], 
+			      {type: 'application/pdf'});
+			//Build a URL from the file
+			    const fileURL = URL.createObjectURL(file);
+			//Open the URL on new Window
+			    window.open(fileURL);
+			})
+			.catch(error => {
+			    console.log(error);
+			})
+		}
 	}
 }
 </script>
