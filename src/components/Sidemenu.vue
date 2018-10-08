@@ -9,6 +9,9 @@
 			</md-list-item>
 			</div>
 		</md-list>
+		<center>
+			<img class="logo " src="../assets/logo.png">
+		</center>
 	</div>
 </template>
 <script>

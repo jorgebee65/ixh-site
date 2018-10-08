@@ -48,7 +48,6 @@
 
 			          <div class="md-list-item-text">
 			            <span>{{adv.email}}</span>
-			            <span>Personal</span>
 			          </div>
 			        </md-list-item>
 			        <md-divider></md-divider>
@@ -88,6 +87,13 @@
 	      	<div id="map"></div>
 	      </div>
 	  	</div>
+	  	<div>
+	  		<div class="fixed-action-btn">
+			  <a v-if="showScrollBtn" class="btn-floating btn-large orange darken-2 pulse" @click="topFunction()">
+			    <i class="large material-icons">open_in_browser</i>
+			  </a>
+			</div>
+	  	</div>
       </div>
       <md-dialog-confirm
       :md-active.sync="active"
@@ -107,7 +113,8 @@
 	data(){
 			return {
 				adv : '',
-				active: false
+				active: false,
+				showScrollBtn: false
 			}
 	},
 	beforeRouteEnter(to,from,next){
@@ -127,35 +134,41 @@
 		},
 		buy(){
 			console.log('comprar')
-			if(firebase.auth().currentUser){
-				console.log('Hay usuario desde Obtener Cupon')
-				var uidFromPro = firebase.auth().currentUser.uid
-				console.log('uaidi:'+uidFromPro)
-				axios.post(global.ENVIRONMENT+'/ixh/cupons', {
-					user:{uid:uidFromPro},
-					adv:this.adv
-				})
-				.then(response => {
-					console.log(response)
-					this.$swal({
-					  position: 'center',
-					  type: 'success',
-					  title: 'Tu cupón está disponible en "Mis cupones"',
-					  showConfirmButton: false,
-					  timer: 1500
-					})
-				})
-				.catch(e => {
-					this.$swal({
-					  type: 'error',
-					  title: 'Oops...',
-					  text: 'El cupón ha caducado!'
-					})
-				    this.errors.push(e)
-				})
-			}else{
-				this.active = true
-			}
+			firebase.auth().onAuthStateChanged((user)=>{
+				if (user) {
+					var fuid = firebase.auth().currentUser.uid
+							axios({
+								url:global.ENVIRONMENT+'/ixh/cupons',
+					    	method: 'POST',
+					    	headers: {
+									'Content-Type': 'application/json',
+						    	uid: fuid 
+						  	},
+					    	data:{
+									adv:this.adv
+								}
+							})
+							.then(response => {
+								console.log(response)
+								this.$swal({
+									position: 'center',
+									type: 'success',
+									title: 'Tu cupón está disponible en "Mis cupones"',
+									showConfirmButton: true
+								})
+							})
+							.catch(e => {
+								this.$swal({
+									type: 'error',
+									title: 'Error',
+									text: e.message
+								})
+									console.log(e)
+							})
+				}else{
+						console.log('Debe iniciar sesión')
+				}
+			})
 			console.log('comprado')
 		},
 		onCancel:function(){
@@ -164,7 +177,19 @@
 		goLogin:function(){
 			console.log('Iniciar Sesión')
 			this.$router.push('/login')
-		}
+		},
+		topFunction:function(){
+		    document.body.scrollTop = 0; // For Safari
+    		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		},
+		handleScroll: function (event) {
+          var scrollTp = event.srcElement.scrollingElement.scrollTop
+          if (scrollTp > 20) {
+          		this.showScrollBtn = true
+		    } else {
+		        this.showScrollBtn = false
+		    }
+        }
 	},
 	mounted(){
 		this.$nextTick(function () {
@@ -177,7 +202,13 @@
 		  // The marker, positioned at Uluru
 		  var marker = new google.maps.Marker({position: uluru, map: map});
   		})
-	}
+	},
+	created: function () {
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed: function () {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
 }
 </script>
 <style>

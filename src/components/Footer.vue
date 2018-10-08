@@ -10,7 +10,7 @@
 	          <div class="col l4 offset-l2 s12">
 	            <h5 class="grey-text">Síguenos</h5>
 	            <ul>
-	              <li><a class="grey-text text-darken-2" href="https://www.facebook.com/publicolli/">Facebook</a></li>
+	              <li><a class="grey-text text-darken-2" target="_blank" href="https://www.facebook.com/publicolli/">Facebook</a></li>
 	            </ul>
 	          </div>
 	        </div>

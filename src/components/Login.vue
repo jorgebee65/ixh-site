@@ -4,12 +4,15 @@
       <p></p>
     </div>
   	<div class="container">
+  		<h4>Inicio de sesión</h4>
 	  	<div class="row">
-	  		<h1>Login</h1>
 	  		<h5 class="center">¿Ya tienes una cuenta? ingresa:</h5>
 	  		<div class="col s12 m6 center">
 	  			<h5>Con tus redes sociales</h5>
-	  			<a v-on:click="loginFB" class="waves-effect waves-light btn-large facebook"><i class="material-icons left">cloud</i>Facebook</a>
+	  			<center>
+	  				<a v-on:click="loginFB" ><img class="facebook" src="../assets/fblogin.png" /></a>
+  					<img class="logo " src="../assets/logo.png">
+  				</center>
 	  		</div>
 	  		<div class="col s12 m6 center">
 	  			<h5>Con tu email</h5>
@@ -98,6 +101,18 @@
 </script>
 <style>
 .facebook {
-	background-color: #3B5998 !important;
+	display: block;
+  max-width:230px;
+  max-height:95px;
+  width: auto;
+  height: auto;
+}
+
+.logo {
+	display: block;
+  max-width:256px;
+  max-height:256px;
+  width: auto;
+  height: auto;
 }
 </style>

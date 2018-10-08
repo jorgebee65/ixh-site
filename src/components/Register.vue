@@ -4,12 +4,15 @@
       <p></p>
     </div>
   	<div class="container">
+  		<h4>Regístrate</h4>
 	  	<div class="row">
-	  		<h1>Regístrate</h1>
 	  		<h6 class="center">¿Ya tienes una cuenta? <router-link to="/login"> Inicia Sesión </router-link></h6>
 	  		<div class="col s12 m6 center">
 	  			<h5>Con tus redes sociales</h5>
-	  			<a v-on:click="registerFB" class="waves-effect waves-light btn-large facebook"><i class="material-icons left">cloud</i>Facebook</a>
+	  			<center>
+	  			<a v-on:click="registerFB" ><img class="facebook" src="../assets/fblogin.png" /></a>
+	  			<img class="logo " src="../assets/logo.png">
+	  			</center>
 	  		</div>
 	  		<div class="col s12 m6 center">
 	  			<h5>Crea un usuario</h5>
@@ -137,7 +140,6 @@
 			provider.addScope('public_profile')
 			firebase.auth().signInWithPopup(provider)
 			.then((datosUsuario) =>{
-				console.log('Searching user from Navbar')
 				axios.get(global.ENVIRONMENT+'/ixh/users/'+datosUsuario.user.uid)
 				.then(response=>{
 			  		alert('Ya tienes cuenta, inicia sesión')
@@ -158,7 +160,7 @@
 						  showConfirmButton: true,
 						  timer: 1500
 						})
-			  			this.$router.push('/login')
+			  			this.$router.push('/')
 					})
 				    .catch(e => {
 				      this.errors.push(e)
